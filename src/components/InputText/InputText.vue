@@ -7,20 +7,29 @@
         :value="modelValue"
         @input="handleInput"
         :placeholder="placeholder"
-        class="block w-full text-sm border-gray-300 rounded shadow-sm focus:ring-blue-500 focus:border-blue-500"
+        :class="[
+          center && 'text-center',
+          'block w-full text-sm rounded shadow-sm max-w-xs',
+          error
+            ? 'border-red-300 focus:ring-red-500 focus:border-red-500 placeholder-red-300 text-red-900'
+            : 'focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 border-gray-300',
+        ]"
       />
+      <p class="mt-2 text-gray-500" v-if="description">{{ description }}</p>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { defineEmit, defineProps } from 'vue'
-const props = defineProps({
+defineProps({
   type: String,
   label: String,
-  value: String,
+  error: String,
+  center: Boolean,
   modelValue: String,
   placeholder: String,
+  description: String,
 })
 const emit = defineEmit(['update:modelValue'])
 const handleInput = (event: Event) => emit('update:modelValue', (event.target as HTMLInputElement).value)
