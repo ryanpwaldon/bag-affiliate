@@ -11,7 +11,7 @@
       emptyTextHeading="No payouts found"
       emptyTextSubtitle="Check back once you make some referrals!"
     >
-      <template #value="{ item }">
+      <template #payout="{ item }">
         <div class="text-sm font-medium text-gray-900">{{ item.valueFormatted }}</div>
       </template>
       <template #period="{ item }">
@@ -44,7 +44,7 @@ const payoutStats = [
   { label: 'Next payout', value: nextPayout.value || currency(0) },
 ]
 const tableHeadings = [
-  { id: 'value', label: 'Value' },
+  { id: 'payout', label: 'Payout' },
   { id: 'period', label: 'Period' },
   { id: 'payoutDate', label: 'Payout Date' },
   { id: 'status', label: 'Status' },

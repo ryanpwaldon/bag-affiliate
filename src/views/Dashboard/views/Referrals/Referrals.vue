@@ -10,7 +10,7 @@
       v-model:current-page="tableCurrentPage"
       emptyTextHeading="No referrals found"
     >
-      <template #user="{ item }">
+      <template #referral="{ item }">
         <div class="text-sm font-medium text-gray-900">{{ item.shopOrigin }}</div>
       </template>
       <template #plan="{ item }">
@@ -25,19 +25,19 @@
 
 <script lang="ts" setup>
 import { ref } from '@vue/reactivity'
-const date = useDate()
 import { watch } from '@vue/runtime-core'
+import useDate from '../../../../composables/useDate'
 import Table from '../../../../components/Table/Table.vue'
 import StatsBar from '../../../../components/StatsBar/StatsBar.vue'
-import useDate from '../../../../composables/useDate'
 import affiliateService from '../../../../services/api/services/affiliate.service'
+const date = useDate()
 const referralStats = [
   { label: 'Total referrals', value: '21' },
   { label: 'Active referrals', value: '3' },
   { label: 'Churrned referrals', value: '18' },
 ]
 const tableHeadings = [
-  { id: 'user', label: 'User' },
+  { id: 'referral', label: 'Referral' },
   { id: 'plan', label: 'Plan' },
   { id: 'createdAt', label: 'Created at' },
   { id: 'payouts', label: 'Payouts' },
