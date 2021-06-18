@@ -1,5 +1,19 @@
 import { client } from '../client'
 
+interface Payout {
+  periodEnd: Date
+  periodStart: Date
+  value: number
+}
+
+export interface Affiliate {
+  email: string
+  payPalEmail: string
+  linkClicks: number
+  code: string
+  payouts: Record<string, Payout>
+}
+
 interface FindAllQuery {
   query?: object
   sort?: string
@@ -10,6 +24,9 @@ interface FindAllQuery {
 export default {
   async login(email: string) {
     return await client({ url: `/affiliate/login`, method: 'post', data: { email } })
+  },
+  async findMe() {
+    return (await client({ url: `/affiliate`, method: 'get' })).data
   },
   async findMyReferrals({ query, sort, page, limit }: FindAllQuery) {
     return (await client({ url: `/affiliate/referrals`, method: 'get', params: { query, sort, page, limit } })).data

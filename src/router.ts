@@ -1,10 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import store from './store/store'
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: () => import('./views/Home/Home.vue'),
+    redirect: 'Dashboard',
+  },
+  {
+    path: '/auth',
+    name: 'Auth',
+    component: () => import('./views/Auth/Auth.vue'),
   },
   {
     path: '/login',
@@ -49,6 +54,16 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+})
+
+let isFirstRoute = true
+router.beforeEach((to) => {
+  if (isFirstRoute) {
+    isFirstRoute = false
+    store.commit('setContinueToRoute', to)
+    return { name: 'Auth', query: to.query }
+  }
+  return true
 })
 
 export default router

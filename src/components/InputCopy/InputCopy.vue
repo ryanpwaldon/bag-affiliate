@@ -17,7 +17,7 @@
 
 <script lang="ts" setup>
 import { defineProps } from 'vue'
-import { ClipboardIcon } from 'heroicons-vue3/solid'
+import { ClipboardIcon } from '@heroicons/vue/solid'
 defineProps({
   label: String,
   value: String,
