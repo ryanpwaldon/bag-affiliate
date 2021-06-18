@@ -7,16 +7,16 @@
           <p class="text-gray-500">Refer customers by sharing your affiliate link.</p>
         </div>
         <div class="px-6 py-5 space-y-5">
-          <InputText
-            label="Your code"
-            :error="fields.code.error.value"
-            v-model="fields.code.value.value"
-            description="Your code will appear at the end of your affiliate link."
-          />
           <InputCopy
             label="Your affiliate link"
             :value="`https://bag.supply/${fields.code.value.value}`"
             description="This link redirects users to our app listing (https://apps.shopify.com/bag). If a user proceeds to sign up for an account after clicking your link, you’ll be paid a commission every time that user makes a payment."
+          />
+          <InputText
+            label="Customize your code"
+            v-model="fields.code.value.value"
+            description="Your code appears at the end of your affiliate link."
+            :error="error ? 'Code already taken. Try another.' : fields.code.error.value"
           />
         </div>
         <div class="flex justify-end px-6 py-5 bg-gray-50">
@@ -28,6 +28,7 @@
 </template>
 
 <script lang="ts" setup>
+import { useStore } from 'vuex'
 import { object, string } from 'yup'
 import useForm from '../../composables/useForm'
 import Card from '../../components/Card/Card.vue'
@@ -36,14 +37,23 @@ import Dashboard from '../../layouts/Dashboard.vue'
 import Button from '../../components/Button/Button.vue'
 import InputText from '../../components/InputText/InputText.vue'
 import InputCopy from '../../components/InputCopy/InputCopy.vue'
-const schema = computed(() => object({ code: string().required().default('') }).defined())
+import affiliateService from '../../services/api/services/affiliate.service'
+const store = useStore()
+const schema = computed(() => object({ code: string().required().default(store.state.affiliate.code) }).defined())
 const { fields, getValues, handleSubmit, modified } = useForm(schema)
 const loading = ref(false)
+const error = ref(false)
 const onSubmit = handleSubmit(async () => {
+  error.value = false
   loading.value = true
-  const values = getValues()
-  console.log(values)
-  await new Promise((resolve) => setTimeout(resolve, 5000))
+  const { code } = getValues()
+  try {
+    const affiliate = await affiliateService.updateCode(code as string)
+    store.commit('setAffiliate', affiliate)
+  } catch (err) {
+    console.log(err)
+    error.value = true
+  }
   loading.value = false
 })
 </script>

@@ -34,4 +34,7 @@ export default {
   async findMyReferrals({ query, sort, page, limit }: FindAllQuery) {
     return (await client({ url: `/affiliate/referrals`, method: 'get', params: { query, sort, page, limit } })).data
   },
+  async updateCode(code: string) {
+    return (await client({ url: `/affiliate/code`, method: 'post', data: { code } })).data
+  },
 }

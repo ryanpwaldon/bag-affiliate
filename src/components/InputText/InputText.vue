@@ -16,6 +16,7 @@
         ]"
       />
       <p class="mt-2 text-gray-500" v-if="description">{{ description }}</p>
+      <p class="mt-1 text-red-500" v-if="error">{{ error }}</p>
     </div>
   </div>
 </template>
