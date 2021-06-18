@@ -8,6 +8,7 @@
       :total-items="tableTotalItems"
       :items-per-page="tableItemsPerPage"
       v-model:current-page="tableCurrentPage"
+      emptyTextHeading="No referrals found"
     >
       <template #user="{ item }">
         <div class="text-sm font-medium text-gray-900">{{ item.shopOrigin }}</div>
@@ -16,7 +17,7 @@
         <div class="text-sm text-gray-500">{{ item.subscription || '–' }}</div>
       </template>
       <template #createdAt="{ item }">
-        <div class="text-sm text-gray-500">{{ dateFormatter(item.createdAt).format('Do MMM YYYY') }}</div>
+        <div class="text-sm text-gray-500">{{ date(item.createdAt).format('Do MMM YYYY') }}</div>
       </template>
     </Table>
   </div>
@@ -24,11 +25,11 @@
 
 <script lang="ts" setup>
 import { ref } from '@vue/reactivity'
-const dateFormatter = useDateFormatter()
+const date = useDate()
 import { watch } from '@vue/runtime-core'
 import Table from '../../../../components/Table/Table.vue'
 import StatsBar from '../../../../components/StatsBar/StatsBar.vue'
-import useDateFormatter from '../../../../composables/useDateFormatter'
+import useDate from '../../../../composables/useDate'
 import affiliateService from '../../../../services/api/services/affiliate.service'
 const referralStats = [
   { label: 'Total referrals', value: '21' },

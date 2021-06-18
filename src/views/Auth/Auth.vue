@@ -11,8 +11,8 @@ import Center from '../../layouts/Center.vue'
 import Spinner from '../../components/Spinner/Spinner.vue'
 import affiliateService from '../../services/api/services/affiliate.service'
 import type { Affiliate } from '../../services/api/services/affiliate.service'
-const router = useRouter()
 const store = useStore()
+const router = useRouter()
 const auth = async () => {
   const affiliate = (await affiliateService.findMe().catch(() => null)) as Affiliate | null
   if (!affiliate) return router.push({ name: 'Login' })

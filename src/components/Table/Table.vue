@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col overflow-hidden rounded shadow">
+  <div class="flex flex-col overflow-hidden rounded shadow" v-if="loading || items.length">
     <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div class="inline-block min-w-full align-middle sm:px-6 lg:px-8">
         <div class="overflow-hidden">
@@ -51,12 +51,19 @@
       </div>
     </nav>
   </div>
+  <Card class="flex flex-col items-center justify-center w-full h-52" v-else>
+    <EmptyBag class="w-16" />
+    <h3 class="mt-2 text-base font-medium">{{ emptyTextHeading }}</h3>
+    <p class="mt-1 text-sm text-gray-500" v-if="emptyTextSubtitle">{{ emptyTextSubtitle }}</p>
+  </Card>
 </template>
 
 <script lang="ts" setup>
-import { computed, defineProps } from 'vue'
+import Card from '../Card/Card.vue'
 import type { PropType } from 'vue'
 import Button from '../Button/Button.vue'
+import { computed, defineProps } from 'vue'
+import EmptyBag from '../../icons/EmptyBag.vue'
 
 interface Heading {
   id: string
@@ -90,6 +97,14 @@ const props = defineProps({
   loading: {
     type: Boolean,
     default: false,
+  },
+  emptyTextHeading: {
+    type: String,
+    default: 'No items found',
+  },
+  emptyTextSubtitle: {
+    type: String,
+    required: false,
   },
 })
 

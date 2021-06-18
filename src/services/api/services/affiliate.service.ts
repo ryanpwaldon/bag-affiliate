@@ -25,6 +25,9 @@ export default {
   async login(email: string) {
     return await client({ url: `/affiliate/login`, method: 'post', data: { email } })
   },
+  async logout() {
+    return await client({ url: `/affiliate/logout`, method: 'get' })
+  },
   async findMe() {
     return (await client({ url: `/affiliate`, method: 'get' })).data
   },
