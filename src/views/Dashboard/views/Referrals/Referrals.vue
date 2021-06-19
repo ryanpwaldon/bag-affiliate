@@ -11,7 +11,7 @@
       emptyTextHeading="No referrals found"
     >
       <template #referral="{ item }">
-        <div class="text-sm font-medium text-gray-900">{{ item.shopOrigin }}</div>
+        <div class="text-sm font-medium text-gray-900">{{ item.primaryDomain }}</div>
       </template>
       <template #plan="{ item }">
         <div class="text-sm text-gray-500">{{ item.subscription || '–' }}</div>
@@ -19,18 +19,25 @@
       <template #createdAt="{ item }">
         <div class="text-sm text-gray-500">{{ date(item.createdAt).format('Do MMM YYYY') }}</div>
       </template>
+      <template #payments="{ item }">
+        <div class="text-sm text-gray-500">{{ currency(getTotalPayments(item.payments)) }}</div>
+      </template>
     </Table>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { Decimal } from 'decimal.js'
 import { ref } from '@vue/reactivity'
 import useDate from '../../../../composables/useDate'
 import Table from '../../../../components/Table/Table.vue'
+import useCurrency from '../../../../composables/useCurrency'
 import { computed, onMounted, watch } from '@vue/runtime-core'
 import StatsBar from '../../../../components/StatsBar/StatsBar.vue'
+import type { Payment } from '../../../../services/api/services/user.service'
 import affiliateService from '../../../../services/api/services/affiliate.service'
 const date = useDate()
+const currency = useCurrency()
 const referralStats = ref()
 const referralStatsLoading = ref(true)
 const tableItems = ref([])
@@ -47,7 +54,7 @@ const tableHeadings = [
   { id: 'referral', label: 'Referral' },
   { id: 'plan', label: 'Plan' },
   { id: 'createdAt', label: 'Created at' },
-  { id: 'payouts', label: 'Payouts' },
+  { id: 'payments', label: 'Payments' },
 ]
 watch(
   tableCurrentPage,
@@ -64,4 +71,7 @@ onMounted(async () => {
   referralStats.value = await affiliateService.findMyReferralStats()
   referralStatsLoading.value = false
 })
+const getTotalPayments = (payments: Payment[]) => {
+  return payments.reduce((total: number, payment: Payment) => Decimal.add(total, payment.grossAmount).toNumber(), 0)
+}
 </script>

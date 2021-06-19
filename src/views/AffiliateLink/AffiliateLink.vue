@@ -9,7 +9,7 @@
         <div class="px-6 py-5 space-y-5">
           <InputCopy
             label="Your affiliate link"
-            :value="`https://bag.supply/${fields.code.value.value}`"
+            :value="`${marketingUrl}/${fields.code.value.value}`"
             description="This link redirects users to our app listing (https://apps.shopify.com/bag). If a user proceeds to sign up for an account after clicking your link, you’ll be paid a commission every time that user makes a payment."
           />
           <InputText
@@ -38,6 +38,7 @@ import Button from '../../components/Button/Button.vue'
 import InputText from '../../components/InputText/InputText.vue'
 import InputCopy from '../../components/InputCopy/InputCopy.vue'
 import affiliateService from '../../services/api/services/affiliate.service'
+const marketingUrl = import.meta.env.VITE_MARKETING_URL
 const store = useStore()
 const schema = computed(() =>
   object({
