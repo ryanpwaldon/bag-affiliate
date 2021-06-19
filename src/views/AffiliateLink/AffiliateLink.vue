@@ -39,7 +39,14 @@ import InputText from '../../components/InputText/InputText.vue'
 import InputCopy from '../../components/InputCopy/InputCopy.vue'
 import affiliateService from '../../services/api/services/affiliate.service'
 const store = useStore()
-const schema = computed(() => object({ code: string().required().default(store.state.affiliate.code) }).defined())
+const schema = computed(() =>
+  object({
+    code: string()
+      .required('This field is required.')
+      .default(store.state.affiliate.code)
+      .matches(/^[a-zA-Z0-9]+$/, 'Code can only include alphanumeric characters.'),
+  }).defined()
+)
 const { fields, getValues, handleSubmit, modified } = useForm(schema)
 const loading = ref(false)
 const error = ref(false)
