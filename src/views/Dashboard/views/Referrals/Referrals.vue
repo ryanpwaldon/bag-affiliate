@@ -1,6 +1,6 @@
 <template>
   <div class="grid gap-6">
-    <StatsBar :stats="referralStats" />
+    <StatsBar :stats="referralStatsData" :loading="referralStatsLoading" />
     <Table
       :items="tableItems"
       :loading="tableLoading"
@@ -25,28 +25,30 @@
 
 <script lang="ts" setup>
 import { ref } from '@vue/reactivity'
-import { watch } from '@vue/runtime-core'
 import useDate from '../../../../composables/useDate'
 import Table from '../../../../components/Table/Table.vue'
+import { computed, onMounted, watch } from '@vue/runtime-core'
 import StatsBar from '../../../../components/StatsBar/StatsBar.vue'
 import affiliateService from '../../../../services/api/services/affiliate.service'
 const date = useDate()
-const referralStats = [
-  { label: 'Total referrals', value: '21' },
-  { label: 'Active referrals', value: '3' },
-  { label: 'Churrned referrals', value: '18' },
-]
+const referralStats = ref()
+const referralStatsLoading = ref(true)
+const tableItems = ref([])
+const tableLoading = ref(true)
+const tableTotalItems = ref(0)
+const tableCurrentPage = ref(1)
+const tableItemsPerPage = ref(20)
+const referralStatsData = computed(() => [
+  { label: 'Total referrals', value: referralStats.value?.total || 0 },
+  { label: 'Active referrals', value: referralStats.value?.active || 0 },
+  { label: 'Churrned referrals', value: referralStats.value?.churned || 0 },
+])
 const tableHeadings = [
   { id: 'referral', label: 'Referral' },
   { id: 'plan', label: 'Plan' },
   { id: 'createdAt', label: 'Created at' },
   { id: 'payouts', label: 'Payouts' },
 ]
-const tableItems = ref([])
-const tableLoading = ref(true)
-const tableTotalItems = ref(0)
-const tableCurrentPage = ref(1)
-const tableItemsPerPage = ref(20)
 watch(
   tableCurrentPage,
   async () => {
@@ -58,4 +60,8 @@ watch(
   },
   { immediate: true }
 )
+onMounted(async () => {
+  referralStats.value = await affiliateService.findMyReferralStats()
+  referralStatsLoading.value = false
+})
 </script>

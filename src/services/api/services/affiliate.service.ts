@@ -31,6 +31,9 @@ export default {
   async findMe() {
     return (await client({ url: `/affiliate`, method: 'get' })).data
   },
+  async findMyReferralStats() {
+    return (await client({ url: `/affiliate/referrals/stats`, method: 'get' })).data
+  },
   async findMyReferrals({ query, sort, page, limit }: FindAllQuery) {
     return (await client({ url: `/affiliate/referrals`, method: 'get', params: { query, sort, page, limit } })).data
   },

@@ -3,7 +3,7 @@
     <template v-for="(stat, i) of stats" :key="i">
       <div class="grid gap-1">
         <span class="text-xs font-semibold tracking-wide text-gray-500 uppercase whitespace-nowrap">{{ stat.label }}</span>
-        <span class="text-2xl font-bold">{{ stat.value }}</span>
+        <span class="text-2xl font-bold" :class="loading && 'animate-pulse text-gray-300'">{{ stat.value }}</span>
       </div>
       <div class="w-px h-full bg-gray-300" v-if="i !== stats?.length - 1" />
     </template>
@@ -18,6 +18,10 @@ defineProps({
   stats: {
     type: Array as PropType<{ label: string; value: string | number }[]>,
     required: true,
+  },
+  loading: {
+    type: Boolean,
+    default: false,
   },
 })
 </script>
