@@ -34,5 +34,6 @@ const themeClasses = computed(() => ({
   blue: `text-white bg-blue-600 shadow-sm ${props.disabled || props.loading ? 'opacity-75' : 'hover:bg-blue-700'}`,
   black: `text-white bg-gray-800 shadow-sm ${props.disabled || props.loading ? 'opacity-75' : 'hover:bg-gray-900'}`,
   white: `text-gray-800 bg-white shadow ${props.disabled || props.loading ? 'opacity-75' : 'hover:bg-gray-50'}`,
+  'white/blue': `text-blue-700 bg-white shadow ${props.disabled || props.loading ? 'opacity-75' : 'hover:bg-gray-50'}`,
 }[props.theme]))
 </script>
