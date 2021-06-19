@@ -2,14 +2,20 @@
   <Center>
     <TransitionFade>
       <div class="grid w-full gap-6 justify-items-center" v-if="success">
-        <Logo />
+        <div class="flex flex-col items-center space-y-3">
+          <Logo class="w-6 h-6" />
+          <p class="text-sm font-medium">Bag Affiliate Program</p>
+        </div>
         <Card class="w-full p-6 text-center">
           <h3 class="text-lg font-medium">Check your email</h3>
           <p class="mt-1 text-gray-500">Click the link in the email to log in to your account. Don’t forget to check your spam folder.</p>
         </Card>
       </div>
       <form class="grid w-full gap-6 justify-items-center" @submit="onSubmit" v-else>
-        <Logo />
+        <div class="flex flex-col items-center space-y-3">
+          <Logo class="w-6 h-6" />
+          <p class="text-sm font-medium">Bag Affiliate Program</p>
+        </div>
         <Card class="w-full p-6 text-center">
           <h3 class="text-lg font-medium">Sign up or log in</h3>
           <p class="mt-1 text-gray-500">Enter your email. We’ll send you a magic link that allows you to login.</p>
