@@ -17,7 +17,8 @@ const auth = async () => {
   const affiliate = (await affiliateService.findMe().catch(() => null)) as Affiliate | null
   if (!affiliate) return router.push({ name: 'Login' })
   store.commit('setAffiliate', affiliate)
-  return router.push(store.state.continueToRoute)
+  if (!affiliate.setupComplete) router.push({ name: 'Setup' })
+  else router.push(store.state.continueToRoute)
 }
 auth()
 </script>
