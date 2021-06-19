@@ -31,6 +31,9 @@ export default {
   async findMe() {
     return (await client({ url: `/affiliate`, method: 'get' })).data
   },
+  async updateMe(data: Partial<Affiliate>) {
+    return (await client({ url: `/affiliate`, method: 'post', data })).data
+  },
   async findMyReferralStats() {
     return (await client({ url: `/affiliate/referrals/stats`, method: 'get' })).data
   },

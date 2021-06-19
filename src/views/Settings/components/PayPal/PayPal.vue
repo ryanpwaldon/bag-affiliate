@@ -21,20 +21,23 @@
 </template>
 
 <script lang="ts" setup>
+import { useStore } from 'vuex'
 import { object, string } from 'yup'
 import { computed, ref } from '@vue/runtime-core'
 import useForm from '../../../../composables/useForm'
 import Card from '../../../../components/Card/Card.vue'
 import Button from '../../../../components/Button/Button.vue'
 import InputText from '../../../../components/InputText/InputText.vue'
-const schema = computed(() => object({ payPalEmail: string().required().default('') }).defined())
-const { fields, getValues, handleSubmit, modified } = useForm(schema)
+import affiliateService from '../../../../services/api/services/affiliate.service'
+const store = useStore()
 const loading = ref(false)
+const schema = computed(() => object({ payPalEmail: string().required().default(store.state.affiliate.payPalEmail) }).defined())
+const { fields, getValues, handleSubmit, modified } = useForm(schema)
 const onSubmit = handleSubmit(async () => {
   loading.value = true
-  const values = getValues()
-  console.log(values)
-  await new Promise((resolve) => setTimeout(resolve, 5000))
+  const { payPalEmail } = getValues()
+  const affiliate = await affiliateService.updateMe({ payPalEmail })
+  store.commit('setAffiliate', affiliate)
   loading.value = false
 })
 </script>
