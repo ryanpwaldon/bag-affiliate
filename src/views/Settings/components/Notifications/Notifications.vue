@@ -10,6 +10,7 @@
           v-model="fields.referralNotification.value.value"
           description="Get notified when a customer you refer signs up."
         />
+        <InputToggle label="Commission" v-model="fields.conversionNotification.value.value" description="Get notified when you earn commission." />
       </div>
       <div class="flex justify-end px-6 py-5 bg-gray-50">
         <Button :disabled="!modified || loading" text="Save" theme="blue" type="submit" :loading="loading" />
@@ -28,13 +29,18 @@ import Button from '../../../../components/Button/Button.vue'
 import InputToggle from '../../../../components/InputToggle/InputToggle.vue'
 import affiliateService from '../../../../services/api/services/affiliate.service'
 const store = useStore()
-const schema = computed(() => object({ referralNotification: boolean().required().default(store.state.affiliate.referralNotification) }).defined())
+const schema = computed(() =>
+  object({
+    referralNotification: boolean().required().default(store.state.affiliate.referralNotification),
+    conversionNotification: boolean().required().default(store.state.affiliate.conversionNotification),
+  }).defined()
+)
 const { fields, getValues, handleSubmit, modified } = useForm(schema)
 const loading = ref(false)
 const onSubmit = handleSubmit(async () => {
   loading.value = true
-  const { referralNotification } = getValues()
-  const affiliate = await affiliateService.updateMe({ referralNotification })
+  const { referralNotification, conversionNotification } = getValues()
+  const affiliate = await affiliateService.updateMe({ referralNotification, conversionNotification })
   store.commit('setAffiliate', affiliate)
   loading.value = false
 })

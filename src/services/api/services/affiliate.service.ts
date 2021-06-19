@@ -13,6 +13,7 @@ export interface Affiliate {
   code: string
   payouts: Record<string, Payout>
   referralNotification: boolean
+  conversionNotification: boolean
   setupComplete: boolean
 }
 
