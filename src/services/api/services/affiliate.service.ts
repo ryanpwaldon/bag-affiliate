@@ -12,6 +12,7 @@ export interface Affiliate {
   linkClicks: number
   code: string
   payouts: Record<string, Payout>
+  referralNotification: boolean
 }
 
 interface FindAllQuery {
