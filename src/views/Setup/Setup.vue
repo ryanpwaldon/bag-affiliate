@@ -9,7 +9,7 @@
         <h3 class="text-lg font-medium text-center">Set up your account</h3>
         <InputText
           class="mt-6"
-          title="PayPal email"
+          label="PayPal email"
           placeholder="james@apple.com"
           :error="fields.payPalEmail.error.value"
           v-model="fields.payPalEmail.value.value"
@@ -18,7 +18,7 @@
         <InputText
           class="mt-6"
           placeholder="james"
-          title="Affiliate code"
+          label="Affiliate code"
           :error="fields.code.error.value"
           v-model="fields.code.value.value"
           :description="codeInputDescription"
@@ -55,7 +55,7 @@ const schema = computed(() =>
 )
 const { fields, getValues, handleSubmit } = useForm(schema)
 const codeInputDescription = computed(
-  () => `This code will appear at the end of your affiliate link e.g. https://bag.supply/${fields.value.code.value.value}`
+  () => `This code will appear at the end of your affiliate link e.g. https://bag.supply/${fields.value.code.value.value}. You can change this later.`
 )
 const error = ref('')
 const success = ref(false)
