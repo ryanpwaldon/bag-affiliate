@@ -23,6 +23,12 @@
           <Button type="submit" :loading="loading" class="w-full mt-3" text="Get login link" />
           <p v-if="error" class="mt-3 text-red-500">An error occurred.</p>
         </Card>
+        <p class="px-3 text-xs text-center text-gray-500">
+          By continuing, you acknowledge that you have read and understood, and agree to Bag's
+          <a href="https://www.notion.so/Bag-Affiliate-Agreement-0179ba6b8fc04204a722f374b06f2c12" class="underline" target="_blank"
+            >Affiliate Agreement</a
+          >.
+        </p>
       </form>
     </TransitionFade>
   </Center>
